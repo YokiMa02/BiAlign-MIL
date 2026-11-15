@@ -1,0 +1,33 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Model weights, extracted features, whole-slide images and private run data
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.h5
+*.hdf5
+*.tif
+*.tiff
+*.svs
+*.ndpi
+data/
+datasets/
+checkpoints/
+results/
+runs/
+logs/
+environment-original.txt
+
+# Credentials and local editor files
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
