@@ -21,45 +21,11 @@ BiAlign-MIL consists of three main stages:
 
 For each valid low-magnification parent region, its feature representation serves as the query, while the corresponding high-magnification child instances provide the keys and values.
 
-A four-head cross-attention mechanism aggregates local morphological information into a regional context representation:
-
-\[
-u_j=e_j^L+
-\operatorname{MHA}
-(e_j^L,E_j^H,E_j^H)
-\]
-
-where:
-- \(e_j^L\) denotes the low-magnification embedding of parent region \(j\).
-- \(E_j^H\) represents the high-magnification embeddings belonging to the same parent region.
-- \(u_j\) denotes the resulting regional context representation.
 
 ### 1.2 Instance-Conditioned Context Feedback
 
 The aggregated regional context is subsequently returned to its corresponding high-magnification instances.
 
-An instance-conditioned gating mechanism determines the feedback intensity for each child instance:
-
-\[
-g_i=\sigma\left(
-\operatorname{MLP}
-([e_i^H;u_j;m_i])
-\right)
-\]
-
-The enhanced high-magnification feature is calculated as:
-
-\[
-\tilde h_i=h_i+
-m_i\cdot g_i\cdot W_{\mathrm{out}}u_j
-\]
-
-where:
-- \(h_i\) is the original high-magnification feature.
-- \(g_i\) is the instance-specific gating coefficient.
-- \(m_i\) is the valid spatial-pairing mask.
-- \(W_{\mathrm{out}}\) projects the regional context into the original feature space.
-- \(\tilde h_i\) is the enhanced instance representation.
 
 Instances without valid spatial correspondences retain their original features.
 
@@ -128,20 +94,12 @@ The input consists of concatenated high- and low-magnification features and thei
 
 ### 4.1 Feature Tensor
 
-\[
-X\in\mathbb{R}^{N\times1536}
-\]
-
 The feature tensor is organized as:
 
 - First 768 dimensions: high-magnification features.
 - Last 768 dimensions: low-magnification features.
 
 ### 4.2 Spatial Coordinates
-
-\[
-C\in\mathbb{R}^{N\times5}
-\]
 
 Each coordinate vector contains:
 
@@ -156,10 +114,6 @@ Each coordinate vector contains:
 The validity indicator determines whether an instance participates in cross-scale interaction.
 
 ### 4.3 Slide-Level Labels
-
-\[
-y\in\{0,1\}
-\]
 
 The model is trained using slide-level supervision for binary classification, without requiring instance-level annotations.
 
